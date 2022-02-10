@@ -1,0 +1,9 @@
+Phân tích project:
+    1.Xây dựng UI done
+    2.Xác định các data cần thiết cho app done
+    3.Xây dựng những tính năng từ dễ đến khó 
+        -Đổ dữ liệu lên các thẻ done 
+        -Giới hạn số thẻ hiển thị theo từng option done 
+        -Hiển thị dữ liệu sao cho có các thẻ có thuộc tính trùng nhau
+        -Sự kiện click vào thẻ thì thẻ bị lật
+        -
