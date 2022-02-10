@@ -2,7 +2,7 @@ Vue.createApp({
     data: function() {
         return {
             cards: [],
-            selectOptions: [2, 4, 6, 8, 10, 12]
+            selectOptions: [2, 4, 6, 8, 10, 12, ]
         }
     },
     mounted() {
@@ -11,8 +11,6 @@ Vue.createApp({
     },
     methods: {
         loadCards(size) {
-
-            // Math.floor(Math.random() * months.length)
             let cards = [{
                     "id": 1,
                     "name": "bulbasaur",
@@ -1613,22 +1611,22 @@ Vue.createApp({
                         }
                     }
                 }
-            ]
+            ].sort(() => Math.random() - 0.5);
 
             if (size) {
 
-                return this.cards = cards.slice(0, size);
-
-
-
-
+                const newCards = cards.slice(0, size);
+                const cardsCopy = [...newCards, ...newCards].sort(() => Math.random() - 0.5);
+                console.log(cardsCopy, cardsCopy.length)
+                this.cards = cardsCopy
+                return;
             }
 
             this.cards = cards
 
         },
         handleSelectGameOption(value) {
-            this.loadCards(value * 2)
+            this.loadCards(value)
         }
     }
 }).mount('#app')
