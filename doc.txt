@@ -6,4 +6,13 @@ Phân tích project:
         -Giới hạn số thẻ hiển thị theo từng option done 
         -Hiển thị dữ liệu sao cho có các thẻ có thuộc tính trùng nhau
         -Sự kiện click vào thẻ thì thẻ bị lật
+
+        làm chức năng lost game
+        -tạo 1 biến để đếm số lần thua,giảm dần sau mỗi lần chọn sai
+        -xử lý chọn sai bị giảm dần trong methods
+        -tạo 1 cái watch để theo dõi giá trị của biến đếm số lần thua
+        nếu như nó <=0 thì ta cho gameResult.lost=true 
+        sau đó v-if cho nó hiện lên html 
         -
+
+        select deck
