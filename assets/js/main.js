@@ -1910,7 +1910,7 @@ Vue.createApp({
   data: function () {
     return {
       cards: [],
-      selectOptions: [ 4, 6, 8, 10, 12],
+      selectOptions: [ 4, 6, 8, 10],
       selectCard: [], //lưu trữ thẻ được chọn
       pairedCard: [], //lưu trữ những thẻ giống nhau
       gameResult: {

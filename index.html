@@ -18,8 +18,8 @@
       <img src="assets/images/cyberlearn-min-new-opt2.png" alt="" class="logo-pokemon" />
       <h1 class="page-title">Cyber Pokemon</h1>
       <form class="game-options">
-        <label for="gameOption1" class="game-options__label" v-for="selectOption in selectOptions">
-          <input id="gameOption1" name="game-options" type="radio" @click="handleSelectGameOption(selectOption)"
+        <label for="gameOption1" class="game-options__label" v-for="(selectOption,index) in selectOptions" :key="index">
+          <input id="gameOption1" name="game-options" type="radio"
             :value="selectOption" class="game-options__input" v-model="gameData.selectDeck" />
           <svg width="20px" height="20px" viewBox="0 0 20 20">
             <circle cx="10" cy="10" r="9"></circle>
@@ -72,7 +72,7 @@
       <div class="game-data">
         <p class="game-data__item game-data__fails">Bad select number: {{ gameData.badSelect }}</p>
       </div>
-      <ul class="game-list-cards">
+      <ul class="game-list-cards" :class="{'game-list-cards--8':gameData.selectDeck==8,'game-list-cards--10':gameData.selectDeck==10}">
         <h1>{{ name }}</h1>
         <li class="game-card " v-for="(card, index) in cards" :key="index.id" @click="handleSelectCard(card)"
           :class="{'is-covered':coveredCard.includes(card),'is-uncovered':uncoveredCard.includes(card)}">
