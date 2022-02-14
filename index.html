@@ -156,7 +156,9 @@
           </li> -->
       </ul>
       <button class="button button--game" @click="handleResetGame">Reset Game</button>
+      <!-- //khi ma gameResult.win tra ve true thi win game -->
       <div v-if="gameResult.win" class="game-result game-result--win">Win</div>
+      <!-- //khi ma gameResult.lost tra ve true thi thua game -->
       <div v-if="gameResult.lost" class="game-result game-result--lose">Lost</div>
       <!---->
     </div>

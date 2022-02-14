@@ -1910,7 +1910,7 @@ Vue.createApp({
   data: function () {
     return {
       cards: [],
-      selectOptions: [ 4, 6, 8, 10],
+      selectOptions: [4, 6, 8, 10],
       selectCard: [], //lưu trữ thẻ được chọn
       pairedCard: [], //lưu trữ những thẻ giống nhau
       gameResult: {
@@ -1929,6 +1929,13 @@ Vue.createApp({
       const deck = parseInt(newValue);
       this.handleResetGame(deck);
     },
+    /**
+     * 
+     * Xu ly thua game 
+     * Dau tien ta cho nguoi choi 10 luot choi:badSelect=10
+     * Cu moi lan nguoi choi chon sai quan bai thi badSelect se giam di 1,va khi nao no <=0 thi la thua
+     * De co the theo doi duoc bien badSelect ta tao 1 watch cho no de theo doi va khi nao badSelect <=0 thi cap nhat lai gia tri cho lost:true
+     */
     "gameData.badSelect": function (newValue) {
       if (newValue <= 0) {
         this.gameResult = {
@@ -1943,10 +1950,19 @@ Vue.createApp({
     this.loadCards();
   },
   computed: {
+    /**
+     * 
+     * xu ly nhung the bi up
+     * The bi up se la nhung the ko dc mo,thuat toan o day la loc trong danh sach card xem co the nao dang duoc mo ko,neu co thi loai ra
+     */
     coveredCard() {
       let coveredCard = this.cards.filter(
         (card) => !this.uncoveredCard.includes(card)
       );
+      /**
+       * Xu ly win game
+       * Game win khi ma tat ca cac the da duoc mo len,tuc la trong coveredCard ko co the nao
+       */
       if (coveredCard.length === 0) {
         this.gameResult = {
           win: true,
@@ -1955,7 +1971,7 @@ Vue.createApp({
       }
       return coveredCard;
     },
-
+    //xu ly nhung the duoc mo
     uncoveredCard() {
       let uncoveredCard = [...this.selectCard, ...this.pairedCard];
       return uncoveredCard;
@@ -2150,59 +2166,59 @@ Vue.createApp({
         }
 
         setTimeout(() => (this.selectCard = []), 800);
-      } else {
+      }
+      //Neu nhu nguoi choi chon sai the thi badSelect se bi giam di 1
+      else {
         this.gameData.badSelect = this.gameData.badSelect - 1;
-         
-        
       }
     },
+    //Xu ly reset game  
     handleResetGame(deck) {
-        //khi nhan nut reset game,khi chuyen giua cac deck voi nhau can lay dc so the tuong ung,vd deck=4 thi so the se la 8
-        
-        const pokemonCardList = this.createPokemonByDeck(deck); //tao ra danh sach pokemon dua vao deck
+      //khi nhan nut reset game,khi chuyen giua cac deck voi nhau can lay dc so the tuong ung,vd deck=4 thi so the se la 8
 
-        const pairPokemonList = this.createPairPokemon(pokemonCardList); //tao mang cac cap the pokemon trung nhau
-    //   this.cards = this.cards.sort(() => Math.random() - 0.5);
-    //sau khi da co duoc cac cap the pokemon giong nhau can random chung
-        this.cards = pairPokemonList.sort(() => Math.random() - 0.5);
-      this.selectCard = [];
-      this.pairedCard = [];
-      this.gameResult = {
+      const pokemonCardList = this.createPokemonByDeck(deck); //tao ra danh sach pokemon dua vao deck
+
+      const pairPokemonList = this.createPairPokemon(pokemonCardList); //tao mang cac cap the pokemon trung nhau
+      //   this.cards = this.cards.sort(() => Math.random() - 0.5);
+      //sau khi da co duoc cac cap the pokemon giong nhau can random chung
+      this.cards = pairPokemonList.sort(() => Math.random() - 0.5); //dau tien khi resetgame can sap xep lai ngau nhien mang ban dau
+      this.selectCard = [];//cap nhat lai cho selectCard bang mang rong
+      this.pairedCard = [];//cap nhat lai cho pairedCard bang mang rong
+      this.gameResult = { //cap nhat lai gia tri cho gameResult
         win: false,
         lost: false,
       };
-        this.gameData.badSelect=10;
+      this.gameData.badSelect = 10;//cap nhat lai gia tri cho badSelect
     },
     //tao ra cac con pokemon ngau nhien dua vao so deck
     createPokemonByDeck(deck) {
-        /**
-         * Thuat toan o day la tao ra 1 vong lap,lap bn lan dua vao cai deck
-         * cu moi mot lan lap ta lay ra 1 con pokemon bat ki
-         */
-        // const deck = this.gameData.selectDeck;
-        const pokenonCardList = [];
-        for(let index = 0;index < deck ; index++){
-            //lay ra 1 so ngau nhien trong mang qua moi lan lap 
-            const numberRange_00_99 = getRandomInt(0,99);
-            //lay ra 1 con pokemon dua vao cai so random o transparent
-            const pokemonCard = dataPokemons[numberRange_00_99];
-            //them no vao mang pokenonCardList
-            pokenonCardList.push(pokemonCard);
-        }
-        return pokenonCardList;
+      /**
+       * Thuat toan o day la tao ra 1 vong lap,lap bn lan dua vao cai deck
+       * cu moi mot lan lap ta lay ra 1 con pokemon bat ki
+       */
+      // const deck = this.gameData.selectDeck;
+      const pokenonCardList = [];
+      for (let index = 0; index < deck; index++) {
+        //lay ra 1 so ngau nhien trong mang qua moi lan lap
+        const numberRange_00_99 = getRandomInt(0, 99);
+        //lay ra 1 con pokemon dua vao cai so random o transparent
+        const pokemonCard = dataPokemons[numberRange_00_99];
+        //them no vao mang pokenonCardList
+        pokenonCardList.push(pokemonCard);
+      }
+      return pokenonCardList;
     },
-    createPairPokemon(pokemonCardList){
-        const PairPokemonList = []; //tao 1 mang rong de chua nhung cap the pokemon giong nhau
-        //duyet qua tung phan tu cua mang PokemonCardList sau do tao ra 2 mang moi co cac gia tri giong nhau
-        //tiep theo chen 2 mang moi vua tao dc thanh 1 mang va luu tong mang PairPokemonList
-        pokemonCardList.map((pokemonCard)=>{
-            
-            const pokemonCard1 = {...pokemonCard};
-            const pokemonCard2 = {...pokemonCard};
-            PairPokemonList.push(pokemonCard1);
-            PairPokemonList.push(pokemonCard2);
-        })
-        return PairPokemonList;
-    }
+    createPairPokemon(pokemonCardList) {
+      const PairPokemonList = []; //tao 1 mang rong de chua nhung cap the pokemon giong nhau
+      //duyet qua tung phan tu cua mang PokemonCardList sau do tao ra 2 mang moi co cac gia tri giong nhau
+      //tiep theo chen 2 mang moi vua tao dc thanh 1 mang va luu tong mang PairPokemonList
+      pokemonCardList.map((pokemonCard) => {
+        const pokemonCard1 = { ...pokemonCard };
+        const pokemonCard2 = { ...pokemonCard };
+        PairPokemonList.push(pokemonCard1);
+        PairPokemonList.push(pokemonCard2);
+      });
+      return PairPokemonList;
+    },
   },
 }).mount("#app");

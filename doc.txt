@@ -16,3 +16,11 @@ Phân tích project:
         -
 
         select deck
+
+        Các bước để làm game pokemon:
+        -rendering list card 
+        -xu ly cac the duoc chon(up hoac mo) va cac the giong nhau
+        -xu ly win game 
+        -xu ly lost game  
+        -xu ly reset game  
+        -xu ly handleSelectDeck
